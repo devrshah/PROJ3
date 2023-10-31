@@ -1,5 +1,5 @@
-# Project Two
-Final Submission due: 10-13 @ 11:59 PM \
+# Project Three
+Final Submission due: 11-03 @ 11:59 PM \
 This project should be runnable with JDK17
 --------------------------------------------------------
 ## Contribution Statements:
