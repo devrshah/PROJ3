@@ -75,8 +75,11 @@ public class GameBoard extends AbsGameBoard {
             //     i--;
             // }
            
-                for (int i = 0; i < gameboard.length; i++) {
-                    if (gameboard[i][c] == ' ') {
+                for (int i = 0; i < getNumRows(); i++) {
+                    BoardPosition temp = new BoardPosition(i,c);
+                    if (whatsAtPos(temp) != ' '){
+                        continue;
+                    }else{
                         gameboard[i][c] = p;
                         break;
                     }
