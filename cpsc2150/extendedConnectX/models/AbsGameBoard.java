@@ -55,7 +55,7 @@ public abstract class AbsGameBoard implements IGameBoard {
         for (int i = getNumRows() - 1; i >= 0; i--) {
             for (int j = 0; j < getNumColumns(); j++) {
                 boardPosition[count] = new BoardPosition(i, j);
-                gameBoard.append("| " + this.whatsAtPos(boardPosition[count]));
+                gameBoard.append("|" + this.whatsAtPos(boardPosition[count]) + " ");
             }
             // End of each row
             gameBoard.append("|\n");
