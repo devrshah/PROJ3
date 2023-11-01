@@ -10,9 +10,9 @@ public class GameBoard extends AbsGameBoard {
 
 
     private char[][] gameboard;
-    private int numToWin = 5;
-    private int numRow = 9;
-    private int numCol = 7;
+    private int numToWin;
+    private int numRows;
+    private int numCols;
 
     /**
      * Constructor for the GameBoard class that instantiates a 2-D array of blank
@@ -22,11 +22,14 @@ public class GameBoard extends AbsGameBoard {
      * @post GameBoard sets all spaces to empty char- [' ']
      * @post GameBoard instance is in usable state
      */
-    public GameBoard() {
-        
-        gameboard = new char[numRow][numCol];
-        for (int i = 0; i < numRow; i++) {
-            for (int j = 0; j < numCol; j++) {
+    public GameBoard(int row, int col, int win) {
+
+        numToWin = win;
+        numRows = row;
+        numCols = col;
+        gameboard = new char[numRows][numCols];
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
                 gameboard[i][j] = ' ';
             }
         }

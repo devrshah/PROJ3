@@ -8,7 +8,7 @@ package cpsc2150.extendedConnectX.models;
 
 public interface IGameBoard {
 
-  public static final int numRows = 9, numCols = 7, numToWin = 5;
+  public static final int minPlayer = 2, maxPlayer = 10, minRow = 3, minToWin = 3, minCols = 3, maxRows = 100,maxCols = 100, maxToWin = 25;
 
   /**
    * Function that gets the number of rows on the board
@@ -161,78 +161,148 @@ public interface IGameBoard {
    *       self = #self
    */
   default public boolean checkDiagWin(BoardPosition pos, char p) {
-       //checking bottom right
-       int count = 1;
-       BoardPosition current = new BoardPosition(pos.getRow(), pos.getColumn());
-       int row = current.getRow();
-       int col = current.getColumn();
-     while (count < numToWin && row < numRows - 1 && col < numCols - 1) {
-         current = new BoardPosition(row + 1, col + 1); // Increment both row and col to check the diagonal in the opposite direction
-         if (whatsAtPos(current) == p) {
-             count++;
-             row++;
-             col++;
-         } else {
-             break;
-         }
-     }
+//       //checking bottom right
+//       int count = 1;
+//       BoardPosition current = new BoardPosition(pos.getRow(), pos.getColumn());
+//       int row = current.getRow();
+//       int col = current.getColumn();
+//     while (count < getNumToWin() && row < getNumRows() - 1 && col < getNumColumns() - 1) {
+//         current = new BoardPosition(row + 1, col + 1); // Increment both row and col to check the diagonal in the opposite direction
+//         if (whatsAtPos(current) == p) {
+//             count++;
+//             row++;
+//             col++;
+//         } else {
+//             break;
+//         }
+//     }
+//
+//       if(count == numToWin){return true;}
+//
+//       //checking top left
+//       //reset count and current
+//      // count = 1;
+//       current = new BoardPosition(pos.getRow(),pos.getColumn());
+//       row = current.getRow();
+//       col = current.getColumn();
+//       while(count < numToWin && row < numRows - 1 && col > 0){
+//           current = new BoardPosition(row + 1, col - 1);
+//           if(whatsAtPos(current) == p){
+//               count++;
+//               row++;
+//               col--;
+//           }
+//           else{break;}
+//       }
+//       if(count == numToWin){return true;}
+//
+//       //check bottom left
+//       //reset count and current
+//       count = 1;
+//       current = new BoardPosition(pos.getRow(), pos.getColumn());
+//       row = current.getRow();
+//       col = current.getColumn();
+//       while(count < numToWin && row > 0 && col > 0){
+//           current = new BoardPosition(row - 1, col - 1);
+//           if(whatsAtPos(current) == p){
+//               count++;
+//               row--;
+//               col--;
+//           }
+//           else{break;}
+//       }
+//       if(count == numToWin){return true;}
+//
+//       //check top right
+//       //reset count and current
+////        count = 1;
+//       current = new BoardPosition(pos.getRow(),pos.getColumn());
+//       row = current.getRow();
+//       col = current.getColumn();
+//       while(count < numToWin && row < numRows - 1 && col < numCols - 1){
+//           current = new BoardPosition(row + 1, col + 1);
+//           if(whatsAtPos(current) == p){
+//               count++;
+//               row++;
+//               col++;
+//           }
+//           else{break;}
+//       }
+//
+//       if(count == numToWin){return true;}
+//
+//       //no winner found
+//       return false;
 
-       if(count == numToWin){return true;}
-
-       //checking top left
-       //reset count and current
-      // count = 1;
-       current = new BoardPosition(pos.getRow(),pos.getColumn());
-       row = current.getRow();
-       col = current.getColumn();
-       while(count < numToWin && row < numRows - 1 && col > 0){
-           current = new BoardPosition(row + 1, col - 1);
-           if(whatsAtPos(current) == p){
-               count++;
-               row++;
-               col--;
-           }
-           else{break;}
-       }
-       if(count == numToWin){return true;}
-
-       //check bottom left
-       //reset count and current
-       count = 1;
-       current = new BoardPosition(pos.getRow(), pos.getColumn());
-       row = current.getRow();
-       col = current.getColumn();
-       while(count < numToWin && row > 0 && col > 0){
-           current = new BoardPosition(row - 1, col - 1);
-           if(whatsAtPos(current) == p){
-               count++;
-               row--;
-               col--;
-           }
-           else{break;}
-       }
-       if(count == numToWin){return true;}
-
-       //check top right
-       //reset count and current
-//        count = 1;
-       current = new BoardPosition(pos.getRow(),pos.getColumn());
-       row = current.getRow();
-       col = current.getColumn();
-       while(count < numToWin && row < numRows - 1 && col < numCols - 1){
-           current = new BoardPosition(row + 1, col + 1);
-           if(whatsAtPos(current) == p){
-               count++;
-               row++;
-               col++;
-           }
-           else{break;}
-       }
-
-       if(count == numToWin){return true;}
-
-       //no winner found
-       return false;
+      int count = 1;
+      boolean reverse = false, opposite = false;
+      //Northeast
+      for (int r = pos.getRow() + 1, c = pos.getColumn() + 1; r < getNumRows() && c < getNumColumns() && !reverse; r++, c++) {
+          BoardPosition test = new BoardPosition(r, c);
+          if (isPlayerAtPos(test, p)) {
+              count++;
+              if (count == getNumToWin()) {
+                  return true;
+              }
+          }
+          else {
+              reverse = true;
+          }
+      }
+      //If pos is in the top right corner
+      if (pos.getRow() == getNumRows() - 1 && pos.getColumn() == getNumColumns() - 1 && count == 1) {
+          reverse = true;
+      }
+      if (reverse) {
+          //Southwest
+          for (int r = pos.getRow() - 1, c = pos.getColumn() - 1; r >= 0 && c >= 0 && !opposite; r--, c--) {
+              BoardPosition test = new BoardPosition(r, c);
+              if (isPlayerAtPos(test, p)) {
+                  count++;
+                  if (count == getNumToWin()) {
+                      return true;
+                  }
+              }
+              else {
+                  opposite = true;
+              }
+          }
+      }
+      count = 1;
+      reverse = false;
+      //Southeast
+      for (int r = pos.getRow() - 1, c = pos.getColumn() + 1; r >= 0 && c < getNumColumns() && !reverse; r--, c++) {
+          BoardPosition test = new BoardPosition(r, c);
+          if (isPlayerAtPos(test, p)) {
+              count++;
+              if (count == getNumToWin()) {
+                  return true;
+              }
+          }
+          else {
+              reverse = true;
+          }
+      }
+      //If pos is in the bottom right corner
+      if (pos.getRow() == 0 && pos.getColumn() == getNumColumns() - 1 && count == 1) {
+          reverse = true;
+      }
+      if (reverse) {
+          //Northwest
+          for (int r = pos.getRow() + 1, c = pos.getColumn() - 1; r < getNumRows() && c >= 0; r++, c--) {
+              BoardPosition test = new BoardPosition(r, c);
+              if (isPlayerAtPos(test, p)) {
+                  count++;
+                  if (count == getNumToWin()) {
+                      return true;
+                  }
+              }
+              else {
+                  return false;
+              }
+          }
+      }
+      return false;
 }
 
   /**

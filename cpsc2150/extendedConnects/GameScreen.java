@@ -21,7 +21,7 @@ public class GameScreen {
     String input;
     boolean hasWon = false;
 
-    IGameBoard game = new GameBoard();
+    IGameBoard game = new GameBoard(10,10,4);
 
     while (playAgain == 'Y' || playAgain == 'y') {
       while (!hasWon) {
@@ -85,7 +85,7 @@ public class GameScreen {
       input = scnr.nextLine();
       playAgain = input.charAt(0);
       if (playAgain == 'Y' || playAgain == 'y') {
-        game = new GameBoard();
+        game = new GameBoard(20,20,4);
         hasWon = false;
       }else{
         playAgain = 'N';
