@@ -48,30 +48,15 @@ public class GameBoardMem extends AbsGameBoard {
      * @post given character token will be placed in specified column
      */
     public void dropToken(char p, int c) {
-//        if(mapBoard.containsKey(p) == false) {
-//            mapBoard.put(p, new ArrayList<>());
-//        }else {
-//            for(int i = 0; i < getNumRows(); i++) {
-//                BoardPosition board = new BoardPosition(i, c);
-//                if(whatsAtPos(board) == ' ') {
-//                    mapBoard.get(p).add(board);
-//                    break;
-//                }
-//            }
-//        }
-        for (int r = 0; r < getNumColumns(); r++) {
-            BoardPosition pos = new BoardPosition(r, c);
-            if (whatsAtPos(pos) == ' ') {
-                if (mapBoard.containsKey(p)) {
-                    mapBoard.get(p).add(pos);
+        if(mapBoard.containsKey(p) == false) {
+            mapBoard.put(p, new ArrayList<>());
+        }else {
+            for(int i = 0; i < getNumRows(); i++) {
+                BoardPosition board = new BoardPosition(i, c);
+                if(whatsAtPos(board) == ' ') {
+                    mapBoard.get(p).add(board);
+                    break;
                 }
-                else {
-                    List<BoardPosition> newList = new ArrayList<>();
-                    newList.add(pos);
-                    mapBoard.put(p, newList);
-                }
-                //Breaks the loop
-                r = getNumColumns();
             }
         }
     }
