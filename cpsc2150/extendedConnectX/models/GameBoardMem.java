@@ -6,10 +6,11 @@ import java.util.Map;
 import java.util.ArrayList;
 
 public class GameBoardMem extends AbsGameBoard {
-    Map<Character, List<BoardPosition>> mapBoard = new HashMap<Character, List<BoardPosition>>();
-    int numRows, numCols, numToWin;
+    private Map<Character, List<BoardPosition>> mapBoard;
+    private int numRows, numCols, numToWin;
 
     public GameBoardMem(int row, int col, int win) {
+        mapBoard = new HashMap<>();
         numRows = row;
         numCols = col;
         numToWin = win;
@@ -47,15 +48,30 @@ public class GameBoardMem extends AbsGameBoard {
      * @post given character token will be placed in specified column
      */
     public void dropToken(char p, int c) {
-        if(mapBoard.containsKey(p) == false) {
-            mapBoard.put(p, new ArrayList<>());
-        }else {
-            for(int i = 0; i < getNumRows(); i++) {
-                BoardPosition board = new BoardPosition(i, c);
-                if(whatsAtPos(board) == ' ') {
-                    mapBoard.get(p).add(board);
-                    break;
+//        if(mapBoard.containsKey(p) == false) {
+//            mapBoard.put(p, new ArrayList<>());
+//        }else {
+//            for(int i = 0; i < getNumRows(); i++) {
+//                BoardPosition board = new BoardPosition(i, c);
+//                if(whatsAtPos(board) == ' ') {
+//                    mapBoard.get(p).add(board);
+//                    break;
+//                }
+//            }
+//        }
+        for (int r = 0; r < getNumColumns(); r++) {
+            BoardPosition pos = new BoardPosition(r, c);
+            if (whatsAtPos(pos) == ' ') {
+                if (mapBoard.containsKey(p)) {
+                    mapBoard.get(p).add(pos);
                 }
+                else {
+                    List<BoardPosition> newList = new ArrayList<>();
+                    newList.add(pos);
+                    mapBoard.put(p, newList);
+                }
+                //Breaks the loop
+                r = getNumColumns();
             }
         }
     }
